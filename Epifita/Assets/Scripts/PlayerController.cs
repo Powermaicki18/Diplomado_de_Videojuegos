@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
     [Header("Duraciones (segundos) - ajusta a tus clips")]
     [SerializeField] private float specialAttackDuration = 0.6f;
     [SerializeField] private float hurtDuration = 0.4f;
+    [SerializeField] private GameEndController gameEnd;
+    
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 facing = Vector2.down;   // empieza mirando al frente
     private bool isDead = false;
     private bool isLocked = false;           // bloquea movimiento (ataque/daño)
+    
 
     void Start()
     {
@@ -108,9 +111,15 @@ public class PlayerController : MonoBehaviour
         if (isDead) return;
         isDead = true;
         input = Vector2.zero;
-        rb.linearVelocity = Vector2.zero;   // Unity 2022 o anterior: rb.velocity
+        rb.linearVelocity = Vector2.zero;
         animator.SetBool(P_IS_MOVING, false);
         animator.SetTrigger(P_DIE);
+        Invoke(nameof(NotifyDefeat), 1.5f); // deja ver la animación de muerte
+    }
+    
+    void NotifyDefeat()
+    {
+        if (gameEnd != null) gameEnd.ShowDefeat();
     }
 
     void LockMovement(float seconds)
