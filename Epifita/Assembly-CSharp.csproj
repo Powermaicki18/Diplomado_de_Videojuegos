@@ -51,6 +51,7 @@
     <Compile Include="Assets/Scripts/InstructionsController.cs" />
     <Compile Include="Assets/Scripts/PlayerController.cs" />
     <Compile Include="Assets/Scripts/PulseImage.cs" />
+    <Compile Include="Assets/Scripts/ShovelPickup.cs" />
     <Compile Include="Assets/Scripts/GameEndTester.cs" />
     <Compile Include="Assets/Scripts/GameEndController.cs" />
     <Compile Include="Assets/Scripts/ContinueController.cs" />

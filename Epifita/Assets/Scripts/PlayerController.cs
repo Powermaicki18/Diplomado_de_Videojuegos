@@ -22,6 +22,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float hurtDuration = 0.4f;
     [SerializeField] private GameEndController gameEnd;
     
+    [Header("Vida")]
+    [SerializeField] private int maxHealth = 5;
+    private int health;
+
+    [Header("Ataque con pala")]
+    [SerializeField] private int attackDamage = 1;
+    [SerializeField] private float attackHitDelay = 0.25f;  // cuándo pega dentro de la animación
+    [SerializeField] private float attackReach = 0.8f;      // qué tan lejos delante del jugador
+    [SerializeField] private Vector2 attackSize = new Vector2(0.9f, 0.9f);
+
+    public bool IsDead => isDead;
+    public bool HasWeapon => hasWeapon;
+    
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -39,6 +52,7 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool(P_HAS_WEAPON, hasWeapon);
         UpdateFacingAnimator();
+        health = maxHealth;
     }
 
     void Update()
@@ -63,18 +77,12 @@ public class PlayerController : MonoBehaviour
 
         animator.SetBool(P_IS_MOVING, input != Vector2.zero);
 
-        // --- Equipar / desequipar arma (tecla E) ---
-        if (Input.GetKeyDown(KeyCode.E) && !isLocked)
-        {
-            hasWeapon = !hasWeapon;
-            animator.SetBool(P_HAS_WEAPON, hasWeapon);
-        }
-
         // --- Ataque especial (tecla J, solo con arma) ---
         if (Input.GetKeyDown(KeyCode.J) && hasWeapon && !isLocked)
         {
             animator.SetTrigger(P_SPECIAL_ATTACK);
             LockMovement(specialAttackDuration);
+            Invoke(nameof(DoAttackHit), attackHitDelay);
         }
 
         // --- Pruebas: daño (H) y muerte (K) ---
@@ -99,11 +107,38 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat(P_FACE_Y, facing.y);   // -1 abajo, 1 arriba
     }
 
+    // Lo llama la pala al tomarla o soltarla
+    public void SetWeapon(bool value)
+    {
+        hasWeapon = value;
+        animator.SetBool(P_HAS_WEAPON, hasWeapon);
+    }
+
+    void DoAttackHit()
+    {
+        if (isDead) return;
+        Vector2 center = (Vector2)transform.position + facing * attackReach;
+
+        foreach (var hit in Physics2D.OverlapBoxAll(center, attackSize, 0f))
+        {
+            var enemy = hit.GetComponent<EnemyController>();
+            if (enemy != null) enemy.TakeDamage(attackDamage);
+        }
+    }
+
     public void TakeDamage()
     {
         if (isDead) return;
+        health--;
+        if (health <= 0) { Die(); return; }
         animator.SetTrigger(P_HURT);
         LockMovement(hurtDuration);
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube((Vector2)transform.position + facing * attackReach, attackSize);
     }
 
     public void Die()
