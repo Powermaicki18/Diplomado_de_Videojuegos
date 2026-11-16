@@ -62,21 +62,26 @@ public class PlayerController : MonoBehaviour
     private bool attackFlip;      // true mientras dura el golpe
     private float attackSide = 1f;
 
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        sr = GetComponentInChildren<SpriteRenderer>();
-        health = maxHealth;
+	private WorldHealthBar worldBar;
 
-        healthBar = GetComponent<WorldHealthBar>();
-        if (healthBar != null) healthBar.SetValue(1f);
+	void Start()
+	{
+    	rb = GetComponent<Rigidbody2D>();
+    	animator = GetComponent<Animator>();
+    	sr = GetComponentInChildren<SpriteRenderer>();
+    	health = maxHealth;
 
+   	 	healthBar = GetComponent<WorldHealthBar>();
+    	if (healthBar != null) healthBar.SetValue(1f);
+
+    	if (gameEnd == null) gameEnd = FindFirstObjectByType<GameEndController>();
 
 		if (startWithWeaponInThisLevel || CarriesWeapon) hasWeapon = true;
-        animator.SetBool(P_HAS_WEAPON, hasWeapon);
-        UpdateFacingAnimator();
-    }
+		CarriesWeapon = hasWeapon;
+
+    	animator.SetBool(P_HAS_WEAPON, hasWeapon);
+    	UpdateFacingAnimator();
+	}
 
     void Update()
     {
@@ -169,16 +174,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
-    {
-        if (isDead) return;
-        health--;
-        lastDamageTime = Time.time;
-        if (healthBar != null) healthBar.SetValue((float)health / maxHealth);
-        if (health <= 0) { Die(); return; }
-        animator.SetTrigger(P_HURT);
-        LockMovement(hurtDuration);
-    }
+	public void TakeDamage(int amount = 1)
+	{
+    	if (isDead) return;
+    	health -= amount;
+    	lastDamageTime = Time.time;
+    	if (healthBar != null) healthBar.SetValue(Mathf.Max(0, (float)health / maxHealth));
+    	if (health <= 0) { Die(); return; }
+    	animator.SetTrigger(P_HURT);
+    	LockMovement(hurtDuration);
+	}
 
     public void Die()
     {
@@ -191,6 +196,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool(P_IS_MOVING, false);
         animator.SetTrigger(P_DIE);
         if (healthBar != null) healthBar.SetValue(0f);
+		if (worldBar != null) worldBar.Hide();
         Invoke(nameof(NotifyDefeat), 1.5f);
     }
 

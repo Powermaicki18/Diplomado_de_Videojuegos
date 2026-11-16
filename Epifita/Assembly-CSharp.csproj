@@ -47,15 +47,19 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/Resources/BuildPipeline/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets/Boss/Scripts/BossAnimationController.cs" />
     <Compile Include="Assets/Scripts/MediaManager.cs" />
     <Compile Include="Assets/Scripts/InstructionsController.cs" />
     <Compile Include="Assets/Scripts/PlayerController.cs" />
     <Compile Include="Assets/Scripts/PulseImage.cs" />
     <Compile Include="Assets/Scripts/ShovelPickup.cs" />
     <Compile Include="Assets/Scripts/GameEndTester.cs" />
+    <Compile Include="Assets/Scripts/CinematicController.cs" />
+    <Compile Include="Assets/Scripts/Audio/Sfx.cs" />
     <Compile Include="Assets/Scripts/GameEndController.cs" />
     <Compile Include="Assets/Scripts/ContinueController.cs" />
     <Compile Include="Assets/Scripts/BossHealth.cs" />
+    <Compile Include="Assets/Boss/Scripts/BossAI.cs" />
     <Compile Include="Assets/Scripts/SceneNames.cs" />
     <Compile Include="Assets/Scripts/EnemyController.cs" />
     <Compile Include="Assets/Scripts/MapBorder.cs" />
@@ -64,8 +68,10 @@
     <Compile Include="Assets/Scripts/IDamageable.cs" />
     <Compile Include="Assets/Scripts/MainMenuController.cs" />
     <Compile Include="Assets/Scripts/LoadingDots.cs" />
+    <Compile Include="Assets/Boss/Scripts/BossDebug.cs" />
     <Compile Include="Assets/Scripts/LevelExit.cs" />
     <Compile Include="Assets/Scripts/CameraFollow.cs" />
+    <Compile Include="Assets/Boss/Scripts/BossAnimationTest.cs" />
     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile-2-Pass.shader" />
