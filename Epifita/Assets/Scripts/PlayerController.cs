@@ -27,6 +27,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float regenInterval = 2f;   // segundos entre cada punto recuperado
     [SerializeField] private int regenAmount = 1;        // puntos que recupera cada vez
 
+	[Header("Continuidad entre niveles")]
+	[SerializeField] private bool startWithWeaponInThisLevel = false;
+	public static bool CarriesWeapon;   // se mantiene al cambiar de escena
+
     private float lastDamageTime = -999f;
     private float nextRegenTime;
 
@@ -68,6 +72,8 @@ public class PlayerController : MonoBehaviour
         healthBar = GetComponent<WorldHealthBar>();
         if (healthBar != null) healthBar.SetValue(1f);
 
+
+		if (startWithWeaponInThisLevel || CarriesWeapon) hasWeapon = true;
         animator.SetBool(P_HAS_WEAPON, hasWeapon);
         UpdateFacingAnimator();
     }
@@ -148,6 +154,7 @@ public class PlayerController : MonoBehaviour
     {
         hasWeapon = value;
         animator.SetBool(P_HAS_WEAPON, hasWeapon);
+		CarriesWeapon = value;
     }
 
     void DoAttackHit()

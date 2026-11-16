@@ -13,6 +13,7 @@ public class MainMenuController : MonoBehaviour
         Time.timeScale = 1f; // seguridad si vienes de un juego pausado
         if (MediaManager.Instance != null)
             MediaManager.Instance.PlayMenuMedia();
+		PlayerController.CarriesWeapon = false;
     }
 
     private void Update()
