@@ -6,9 +6,14 @@ public class GameEndController : MonoBehaviour
 {
     [SerializeField] private GameObject defeatPanel;
     [SerializeField] private GameObject victoryPanel;
-    [SerializeField] private float victoryDelay = 2f; // segundos antes de ir a la cortinilla (0 = inmediato)
+    [SerializeField] private float victoryDelay = 2f;
 
-    private bool ended; // evita mostrar derrota y victoria a la vez
+    [Header("Sonidos")]
+    [SerializeField] private AudioClip defeatClip;
+    [SerializeField] private AudioClip victoryClip;
+    [SerializeField, Range(0f, 1f)] private float sfxVolume = 1f;
+
+    private bool ended;
 
     private void Start()
     {
@@ -17,41 +22,44 @@ public class GameEndController : MonoBehaviour
         victoryPanel.SetActive(false);
     }
 
-    // Llámalo desde tu lógica de juego cuando el jugador pierde.
     [ContextMenu("Test Defeat")]
     public void ShowDefeat()
     {
         if (ended) return;
         ended = true;
+
+        if (SceneMusic.Instance != null) SceneMusic.Instance.FadeOut(0.5f);
+        Sfx.Play(defeatClip, sfxVolume);
+
         defeatPanel.SetActive(true);
-        Time.timeScale = 0f; // congela el juego detrás del popup
+        Time.timeScale = 0f;
     }
 
-    // Llámalo desde tu lógica de juego cuando el jugador gana.
     [ContextMenu("Test Victory")]
     public void ShowVictory()
     {
         if (ended) return;
         ended = true;
+
+        if (SceneMusic.Instance != null) SceneMusic.Instance.FadeOut(0.5f);
+        Sfx.Play(victoryClip, sfxVolume);
+
         victoryPanel.SetActive(true);
         StartCoroutine(VictoryRoutine());
     }
 
     private IEnumerator VictoryRoutine()
     {
-        // Realtime: funciona aunque timeScale sea 0
         yield return new WaitForSecondsRealtime(victoryDelay);
         GoToContinue();
     }
 
-    // Botón "Reiniciar"
     public void OnRestartClicked()
     {
-        Time.timeScale = 1f; // restaurar SIEMPRE antes de cargar
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    // Segundo botón de derrota: lleva a la cortinilla
     public void OnContinueClicked() => GoToContinue();
 
     private void GoToContinue()
