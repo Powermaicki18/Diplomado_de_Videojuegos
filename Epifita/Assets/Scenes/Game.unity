@@ -1600,6 +1600,7 @@ GameObject:
   - component: {fileID: 765280718}
   - component: {fileID: 765280720}
   - component: {fileID: 765280719}
+  - component: {fileID: 765280724}
   - component: {fileID: 765280723}
   - component: {fileID: 765280722}
   - component: {fileID: 765280721}
@@ -1783,7 +1784,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   patrolRadius: 3
-  verticalTolerance: 1
+  verticalTolerance: 2
   patrolSpeed: 1.5
   chaseSpeed: 2
   waitAtEdge: 1
@@ -1795,6 +1796,24 @@ MonoBehaviour:
   attackLockTime: 0.5
   health: 3
   destroyDelay: 1.5
+--- !u!114 &765280724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765280717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01763286c68941d2a70443547d98a63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldHealthBar
+  size: {x: 1, y: 0.12}
+  offset: {x: 0, y: 1}
+  backColor: {r: 0, g: 0, b: 0, a: 0.75}
+  fillColor: {r: 0.9, g: 0.15, b: 0.15, a: 1}
+  hideWhenFull: 1
+  sortingOrder: 500
 --- !u!1 &811508176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,51 +1850,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &839110299
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 839110301}
-  - component: {fileID: 839110300}
-  m_Layer: 0
-  m_Name: _tester
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &839110300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 839110299}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cf349ac2172f694daba3772162b9197, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameEndTester
-  gameEnd: {fileID: 1590470730}
---- !u!4 &839110301
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 839110299}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 303.90118, y: 109.62852, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &885339539
 GameObject:
   m_ObjectHideFlags: 0
@@ -2397,6 +2371,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691690611}
   m_CullTransparentMesh: 1
+--- !u!1 &1941536756 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3579371117763702268, guid: 13ee35ae108eb42368c7ef8a6b67ef27, type: 3}
+  m_PrefabInstance: {fileID: 4951600749480220247}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1941536762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1941536756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01763286c68941d2a70443547d98a63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldHealthBar
+  size: {x: 1, y: 0.12}
+  offset: {x: 0, y: 1}
+  backColor: {r: 0, g: 0, b: 0, a: 0.75}
+  fillColor: {r: 0.9, g: 0.15, b: 0.15, a: 1}
+  hideWhenFull: 1
+  sortingOrder: 500
 --- !u!1 &1947809461
 GameObject:
   m_ObjectHideFlags: 0
@@ -25623,6 +25620,7 @@ GameObject:
   - component: {fileID: 2107965819}
   - component: {fileID: 2107965823}
   - component: {fileID: 2107965822}
+  - component: {fileID: 2107965825}
   - component: {fileID: 2107965824}
   m_Layer: 0
   m_Name: Player
@@ -25807,12 +25805,31 @@ MonoBehaviour:
   hasWeapon: 0
   specialAttackDuration: 0.6
   hurtDuration: 0.4
-  gameEnd: {fileID: 0}
   maxHealth: 5
   attackDamage: 1
   attackHitDelay: 0.25
   attackReach: 0.8
   attackSize: {x: 0.9, y: 0.9}
+  attackSpriteFacesRight: 1
+  gameEnd: {fileID: 1590470730}
+--- !u!114 &2107965825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2107965818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01763286c68941d2a70443547d98a63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WorldHealthBar
+  size: {x: 1, y: 0.12}
+  offset: {x: 0, y: 1}
+  backColor: {r: 0, g: 0, b: 0, a: 0.75}
+  fillColor: {r: 0.27944338, g: 0.7735849, b: 0.12771447, a: 1}
+  hideWhenFull: 1
+  sortingOrder: 500
 --- !u!1 &2117652652
 GameObject:
   m_ObjectHideFlags: 0
@@ -25953,6 +25970,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 392535337}
     m_Modifications:
+    - target: {fileID: 78393312198736573, guid: 13ee35ae108eb42368c7ef8a6b67ef27, type: 3}
+      propertyPath: patrolRadius
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1253854592758755078, guid: 13ee35ae108eb42368c7ef8a6b67ef27, type: 3}
       propertyPath: m_FlipX
       value: 1
@@ -25967,11 +25988,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4693840276408502657, guid: 13ee35ae108eb42368c7ef8a6b67ef27, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.75
+      value: -0.77
       objectReference: {fileID: 0}
     - target: {fileID: 4693840276408502657, guid: 13ee35ae108eb42368c7ef8a6b67ef27, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 29.9
+      value: 30.84
       objectReference: {fileID: 0}
     - target: {fileID: 4693840276408502657, guid: 13ee35ae108eb42368c7ef8a6b67ef27, type: 3}
       propertyPath: m_LocalPosition.z
@@ -26007,13 +26028,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5830607505994562496, guid: 13ee35ae108eb42368c7ef8a6b67ef27, type: 3}
       propertyPath: m_Constraints
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6401397878067743223, guid: 13ee35ae108eb42368c7ef8a6b67ef27, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3579371117763702268, guid: 13ee35ae108eb42368c7ef8a6b67ef27, type: 3}
+      insertIndex: 3
+      addedObject: {fileID: 1941536762}
   m_SourcePrefab: {fileID: 100100000, guid: 13ee35ae108eb42368c7ef8a6b67ef27, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -26025,5 +26049,4 @@ SceneRoots:
   - {fileID: 269993423}
   - {fileID: 1067497693}
   - {fileID: 1590470731}
-  - {fileID: 839110301}
   - {fileID: 1584869714}
