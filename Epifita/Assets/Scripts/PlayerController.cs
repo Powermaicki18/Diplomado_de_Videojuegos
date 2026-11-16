@@ -22,6 +22,13 @@ public class PlayerController : MonoBehaviour
 
     [Header("Vida")]
     [SerializeField] private int maxHealth = 5;
+    [Header("Regeneración")]
+    [SerializeField] private float regenDelay = 5f;      // segundos sin daño antes de empezar
+    [SerializeField] private float regenInterval = 2f;   // segundos entre cada punto recuperado
+    [SerializeField] private int regenAmount = 1;        // puntos que recupera cada vez
+
+    private float lastDamageTime = -999f;
+    private float nextRegenTime;
 
     [Header("Ataque con pala")]
     [SerializeField] private int attackDamage = 1;
@@ -68,6 +75,14 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         if (isDead) return;
+        
+        // --- Regeneración de vida ---
+        if (health < maxHealth && Time.time >= lastDamageTime + regenDelay && Time.time >= nextRegenTime)
+        {
+            health = Mathf.Min(maxHealth, health + regenAmount);
+            nextRegenTime = Time.time + regenInterval;
+            if (healthBar != null) healthBar.SetValue((float)health / maxHealth);
+        }
 
         input = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if (isLocked) input = Vector2.zero;
@@ -151,6 +166,7 @@ public class PlayerController : MonoBehaviour
     {
         if (isDead) return;
         health--;
+        lastDamageTime = Time.time;
         if (healthBar != null) healthBar.SetValue((float)health / maxHealth);
         if (health <= 0) { Die(); return; }
         animator.SetTrigger(P_HURT);
