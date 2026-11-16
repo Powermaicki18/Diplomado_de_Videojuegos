@@ -31,6 +31,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float attackHitDelay = 0.25f;  // cuándo pega dentro de la animación
     [SerializeField] private float attackReach = 0.8f;      // qué tan lejos delante del jugador
     [SerializeField] private Vector2 attackSize = new Vector2(0.9f, 0.9f);
+    
+    [Header("Flip")]
+    [Tooltip("Marca esto si el sprite original mira a la DERECHA")]
+    [SerializeField] private bool spriteFacesRight = true;
+    private SpriteRenderer sr;
 
     public bool IsDead => isDead;
     public bool HasWeapon => hasWeapon;
@@ -78,7 +83,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool(P_IS_MOVING, input != Vector2.zero);
 
         // --- Ataque especial (tecla J, solo con arma) ---
-        if (Input.GetKeyDown(KeyCode.J) && hasWeapon && !isLocked)
+        if (Input.GetMouseButtonDown(0) && hasWeapon && !isLocked)
         {
             animator.SetTrigger(P_SPECIAL_ATTACK);
             LockMovement(specialAttackDuration);
@@ -121,7 +126,7 @@ public class PlayerController : MonoBehaviour
 
         foreach (var hit in Physics2D.OverlapBoxAll(center, attackSize, 0f))
         {
-            var enemy = hit.GetComponent<EnemyController>();
+            var enemy = hit.GetComponentInParent<EnemyController>();
             if (enemy != null) enemy.TakeDamage(attackDamage);
         }
     }

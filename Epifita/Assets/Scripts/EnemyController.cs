@@ -39,6 +39,9 @@ public class EnemyController : MonoBehaviour
     private int patrolDir = 1;
     private float waitUntil, busyUntil, nextAttack;
     private bool dead;
+    private Collider2D myCol;
+    private Collider2D playerCol;
+    
 
     private void Start()
     {
@@ -71,7 +74,7 @@ public class EnemyController : MonoBehaviour
             float dx = player.position.x - transform.position.x;
             Face(dx);
 
-            if (Mathf.Abs(dx) <= attackRange)
+            if (HorizontalGap() <= attackRange)
             {
                 Stop();
                 if (Time.time >= nextAttack) StartCoroutine(Attack());
@@ -93,7 +96,7 @@ public class EnemyController : MonoBehaviour
 
         Vector2 p = player.position;
         bool insideX = p.x >= minX && p.x <= maxX;
-        bool insideY = Mathf.Abs(p.y - transform.position.y) <= verticalTolerance;
+        bool insideY = VerticalGap() <= verticalTolerance;
         bool near = Mathf.Abs(p.x - transform.position.x) <= detectRange;
         return insideX && insideY && near;
     }
@@ -120,6 +123,24 @@ public class EnemyController : MonoBehaviour
         }
         rb.linearVelocity = new Vector2(dir * speed, 0f);   // Unity 2022 o anterior: rb.velocity
     }
+    
+    // Distancia horizontal entre los bordes de los colliders (no entre centros)
+    private float HorizontalGap()
+    {
+        if (myCol == null || playerCol == null)
+            return Mathf.Abs(player.position.x - transform.position.x);
+
+        float dx = Mathf.Abs(playerCol.bounds.center.x - myCol.bounds.center.x);
+        return dx - myCol.bounds.extents.x - playerCol.bounds.extents.x;
+    }
+    
+    // Diferencia vertical entre los centros de los colliders
+    private float VerticalGap()
+    {
+        if (myCol == null || playerCol == null)
+            return Mathf.Abs(player.position.y - transform.position.y);
+        return Mathf.Abs(playerCol.bounds.center.y - myCol.bounds.center.y);
+    }
 
     private void Stop() => rb.linearVelocity = Vector2.zero; // Unity 2022 o anterior: rb.velocity
 
@@ -140,9 +161,7 @@ public class EnemyController : MonoBehaviour
 
         if (dead || player == null || playerCtrl == null || playerCtrl.IsDead) yield break;
 
-        float dx = Mathf.Abs(player.position.x - transform.position.x);
-        float dy = Mathf.Abs(player.position.y - transform.position.y);
-        if (dx <= attackRange + 0.3f && dy <= verticalTolerance)
+        if (HorizontalGap() <= attackRange + 0.3f && VerticalGap() <= verticalTolerance)
             playerCtrl.TakeDamage();
     }
 
